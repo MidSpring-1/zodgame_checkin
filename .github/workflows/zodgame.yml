@@ -10,6 +10,8 @@ on:
     branches: [ main ]
     
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: windows-latest
@@ -25,4 +27,9 @@ jobs:
     - name: Run 
       run: |
         python3 ./zodgame/zodgame.py "${{secrets.ZODGAME_COOKIE}}"
-    - uses: liskin/gh-workflow-keepalive@main
+    - name: Keepalive
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git commit --allow-empty -m "Automated keepalive commit"
+        git push
